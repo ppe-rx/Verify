@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlueBoxHD - Link Verification Gate</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+	<link rel="preconnect" href="https://ic-vt-nss.xhcdn.com">
+    <link rel="dns-prefetch" href="https://ic-vt-nss.xhcdn.com">
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/2ymwfwSb/Icon.png">
+	
+<!-- Open Graph (Facebook, LinkedIn, etc.) -->
+<meta property="og:title" content="BlueBoxHD - Watch Your Favorite Videos">
+<meta property="og:image" content="https://i.postimg.cc/Dw0ygvn5/https-gluesletter-substack-com-api-v1-post-preview-119523043-twitter.jpg">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="BlueBoxHD - Watch Your Favorite Videos">
+<meta name="twitter:image" content="https://i.postimg.cc/Dw0ygvn5/https-gluesletter-substack-com-api-v1-post-preview-119523043-twitter.jpg">
+
+    <style>
+        /* Glassmorphic Design System */
+     body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    --bg-url: url('https://ic-vt-nss.xhcdn.com/a/YmVmOWI3NTUyYjA3MWZhMGNhZDUxOWJhNDk2YzlmMjc/s(w:526,h:298),webp/026/316/120/1280x720.17445716.jpg');
+    background-image: var(--bg-url);
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: 'Segoe UI', system-ui;
+    backdrop-filter: blur(4px);
+}
+
+
+
+
+        .verify-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            padding: 2.5rem;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+            max-width: 420px;
+            width: 90%;
+            transition: all 0.4s ease;
+        }
+
+        .verify-btn {
+            padding: 18px 45px;
+            font-size: 1.25rem;
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            color: #fff;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(4px);
+            margin: 12px 0;
+        }
+
+        .verify-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+        }
+
+        .counter-display {
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            margin: 24px 0;
+            font-weight: 600;
+        }
+
+        .success-btn {
+            display: none;
+            background: linear-gradient(135deg, #10b981, #059669);
+            padding: 16px 40px;
+            font-size: 1.1rem;
+        }
+
+        @keyframes clickPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+
+        .animate-pulse {
+            animation: clickPulse 0.4s ease-out;
+        }
+		
+	/* Mobile Devices (Portrait) */
+@media (max-width: 767px) {
+    body {
+        background-image: 
+            linear-gradient(
+                rgba(255, 0, 0, 0.15),
+                rgba(255, 50, 0, 0.1)
+            ),
+            var(--bg-url);
+    }
+}
+    .neon-overlay {
+        position: relative;
+        min-height: 100vh;
+    }
+
+    .neon-overlay::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 0, 221, 0.1);
+        mix-blend-mode: overlay;
+        pointer-events: none;
+    }
+}
+    
+
+/* Tablets (Landscape) */
+@media (min-width: 768px) and (max-width: 1023px) {
+    body {
+        background-size: 100% auto; /* Shows taller portion */
+        background-position: 50% 35%;
+    }
+    .verify-container {
+        max-width: 380px;
+    }
+}
+
+/* Desktop & Large Screens */
+@media (min-width: 1024px) {
+    body {
+        background-size: cover; /* Original full size */
+        background-position: center;
+    }
+}
+
+/* Ultra-wide Screens */
+@media (min-width: 1800px) {
+    body {
+        background-size: 80% auto;
+        background-position: center top;
+    }
+}	
+
+	
+    </style>
+</head>
+<body>
+    <div class="verify-container">
+        <div class="counter-display">
+            <span id="clickCounter">0</span>/3
+        </div>
+        <button class="verify-btn" onclick="handleVerificationClick()">
+            <i class="fas fa-shield-alt"></i> Verify to Access
+        </button>
+        <button class="verify-btn success-btn" id="successButton">
+            <i class="fas fa-unlock"></i> Access Content
+        </button>
+    </div>
+
+    <script>
+        // Configuration (Edit These Values)
+        const REQUIRED_CLICKS = 3;
+        const FINAL_REDIRECT_URL = 'https://watch-re54e.vercel.app/'; // ← REPLACE THIS
+        
+        let clickCount = 0;
+
+        function handleVerificationClick() {
+            // Open verification tab
+            window.open('https://duringcereal.com/fxzjwt74et?key=14e00b1b6c6658c9f9b46ba6924b377f', '_blank');
+            
+            // Update UI
+            clickCount++;
+            document.getElementById('clickCounter').textContent = clickCount;
+            document.getElementById('clickCounter').classList.add('animate-pulse');
+            
+            // Remove animation class
+            setTimeout(() => {
+                document.getElementById('clickCounter').classList.remove('animate-pulse');
+            }, 400);
+
+            // Show success button after required clicks
+            if (clickCount >= REQUIRED_CLICKS) {
+                document.querySelector('.verify-btn').style.display = 'none';
+                document.getElementById('successButton').style.display = 'inline-block';
+            }
+        }
+
+        // Final redirect handler
+        document.getElementById('successButton').addEventListener('click', () => {
+            window.open(FINAL_REDIRECT_URL, '_blank');
+        });
+    </script>
+	
+
+</body>
+   <!-- Histats.com  START  (aync)-->
+<script type="text/javascript">var _Hasync= _Hasync|| [];
+_Hasync.push(['Histats.start', '1,4941467,4,0,0,0,00010000']);
+_Hasync.push(['Histats.fasi', '1']);
+_Hasync.push(['Histats.track_hits', '']);
+(function() {
+var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+hs.src = ('//s10.histats.com/js15_as.js');
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+})();</script>
+<!-- Histats.com  END  -->
+</html>
